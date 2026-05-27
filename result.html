@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>生日快乐 🎂</title>
+    <link rel="stylesheet" href="result.css">
+</head>
+<body>
+    <div class="stars-container"></div>
+
+    <div class="birthday-container">
+        <div class="header-decoration">
+            <div class="balloon" style="--color: #FF6B6B; --delay: 0s;"></div>
+            <div class="balloon" style="--color: #4ECDC4; --delay: 0.2s;"></div>
+            <div class="balloon" style="--color: #FFE66D; --delay: 0.4s;"></div>
+            <div class="balloon" style="--color: #95E1D3; --delay: 0.6s;"></div>
+            <div class="balloon" style="--color: #F38181; --delay: 0.8s;"></div>
+        </div>
+
+        <h1 class="birthday-title">生日快乐 🎂</h1>
+
+        <div class="cake-animation">
+            <div class="cake">
+                <div class="cake-layer layer1"></div>
+                <div class="cake-layer layer2"></div>
+                <div class="cake-layer layer3"></div>
+                <div class="candle">
+                    <div class="flame"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="photos-gallery" id="photosGallery">
+            <!-- 照片将在这里显示 -->
+        </div>
+
+        <div class="footer-message">
+            <p>✨ 愿你每天都像今天一样快乐 ✨</p>
+        </div>
+
+        <div class="action-buttons">
+            <button class="btn-back" onclick="location.href='index.html'">
+                ← 返回
+            </button>
+            <button class="btn-save" onclick="savePage()">
+                💾 保存网页
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // 从 localStorage 获取图片数据
+        const photos = JSON.parse(localStorage.getItem('birthdayPhotos') || '[]');
+        const gallery = document.getElementById('photosGallery');
+
+        photos.forEach(photo => {
+            const imgContainer = document.createElement('div');
+            imgContainer.className = 'photo-item';
+            imgContainer.innerHTML = `<img src="${photo}" alt="生日照片">`;
+            gallery.appendChild(imgContainer);
+        });
+
+        // 创建星星背景
+        function createStars() {
+            const container = document.querySelector('.stars-container');
+            for (let i = 0; i < 50; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                star.style.animationDuration = (2 + Math.random() * 2) + 's';
+                container.appendChild(star);
+            }
+        }
+        createStars();
+
+        // 保存网页
+        function savePage() {
+            const htmlContent = document.documentElement.outerHTML;
+            const blob = new Blob([htmlContent], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = '生日快乐.html';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>
